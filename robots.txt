@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://projectkrato.com/sitemap.xml
