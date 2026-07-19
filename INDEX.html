@@ -113,11 +113,16 @@
     #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 60px 80px; position: relative; overflow: hidden; }
     .hero-bg-k { position: absolute; top: 50%; right: -2%; transform: translateY(-50%); font-family: 'Trebuchet MS', sans-serif; font-weight: 700; font-size: clamp(280px, 38vw, 580px); color: rgba(232,255,71,0.04); line-height: 1; user-select: none; pointer-events: none; animation: pulse-k 6s ease-in-out infinite; }
     @keyframes pulse-k { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero-label, .hero-h1, .hero-sub, .hero-actions { position: relative; z-index: 1; }
     .hero-label { margin-bottom: 24px; animation: fadeUp 0.8s ease both; }
     .hero-h1 { font-size: clamp(48px, 7vw, 108px); max-width: 860px; animation: fadeUp 0.8s 0.1s ease both; }
     .hero-h1 span { color: var(--lime); }
     .hero-sub { margin-top: 28px; font-size: 18px; color: var(--gray-mid); max-width: 500px; line-height: 1.6; animation: fadeUp 0.8s 0.2s ease both; }
     .hero-actions { margin-top: 48px; display: flex; gap: 20px; align-items: center; animation: fadeUp 0.8s 0.3s ease both; }
+    .hero-3d { position: absolute; top: 0; right: 0; width: 65%; height: 100%; z-index: 0; }
+    .hero-3d spline-viewer { width: 100%; height: 100%; }
+    .hero-spotlight { position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 0.4s; background: radial-gradient(520px circle at var(--x, 50%) var(--y, 50%), rgba(232,255,71,0.12), transparent 70%); }
+    #hero:hover .hero-spotlight { opacity: 1; }
     .btn-primary { background: var(--lime); color: var(--near-black); font-family: 'Trebuchet MS', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; padding: 18px 36px; text-decoration: none; display: inline-block; transition: opacity 0.2s, transform 0.2s; }
     .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
     .btn-ghost { color: var(--gray-mid); font-family: 'Trebuchet MS', sans-serif; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid var(--gray-dark); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; }
@@ -209,11 +214,15 @@
     .footer-contact svg { width: 14px; height: 14px; fill: currentColor; flex: 0 0 auto; }
 
     /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .hero-3d { width: 50%; }
+    }
     @media (max-width: 960px) {
       nav { padding: 0 20px; }
       .nav-links { display: none; }
       .nav-hamburger { display: flex; }
       #hero { padding: 0 20px 60px; min-height: 100svh; }
+      .hero-3d { display: none; }
       .section-white, .section-black { padding: 64px 20px; }
       .section-header { flex-direction: column; gap: 20px; }
       .proceso-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
@@ -257,6 +266,8 @@
     <section id="inicio" aria-label="Propuesta de valor">
       <div id="hero">
         <div class="hero-bg-k" aria-hidden="true">K</div>
+        <div class="hero-spotlight" aria-hidden="true"></div>
+        <div class="hero-3d" id="hero3d" aria-hidden="true"></div>
         <div class="hero-label label">Sistemas de Venta con IA + Software a Medida · México</div>
         <h1 class="hero-h1">Tu negocio no tiene<br />un problema de leads.<br />Tiene un problema<br />de <span>sistema</span>.</h1>
         <p class="hero-sub">Los leads se enfrían por respuesta lenta y desordenada, no por falta de demanda. Diagnosticamos tu sistema completo y construimos lo que falta.</p>
@@ -446,6 +457,38 @@
     const menu = document.getElementById('navMobile');
     btn.addEventListener('click', () => { btn.classList.toggle('open'); menu.classList.toggle('open'); });
     menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { btn.classList.remove('open'); menu.classList.remove('open'); }));
+  </script>
+  <script>
+    // ponytail: Spline 3D solo se carga en desktop (>960px) para no pegarle al performance móvil
+    if (window.matchMedia('(min-width: 961px)').matches) {
+      const hero3d = document.getElementById('hero3d');
+      const mod = document.createElement('script');
+      mod.type = 'module';
+      mod.src = 'https://unpkg.com/@splinetool/viewer@1.12.98/build/spline-viewer.js';
+      document.head.appendChild(mod);
+      const viewer = document.createElement('spline-viewer');
+      viewer.setAttribute('url', 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode');
+      viewer.setAttribute('loading-anim-type', 'spinner-small-dark');
+      hero3d.appendChild(viewer);
+      // ponytail: oculta el badge "Built with Spline" via CSS en el shadow root (fuera de los términos del plan free de Spline).
+      // Un inline style se lo pisa el re-render interno del viewer; una <style> inyectada en el shadow root no.
+      const hideSplineBadge = () => {
+        if (!viewer.shadowRoot || viewer.shadowRoot.getElementById('hide-spline-badge')) return !!viewer.shadowRoot;
+        const style = document.createElement('style');
+        style.id = 'hide-spline-badge';
+        style.textContent = '#logo { display: none !important; }';
+        viewer.shadowRoot.appendChild(style);
+        return true;
+      };
+      const badgePoll = setInterval(() => { if (hideSplineBadge()) clearInterval(badgePoll); }, 300);
+      setTimeout(() => clearInterval(badgePoll), 15000);
+      const hero = document.getElementById('hero');
+      hero.addEventListener('mousemove', (e) => {
+        const r = hero.getBoundingClientRect();
+        hero.style.setProperty('--x', (e.clientX - r.left) + 'px');
+        hero.style.setProperty('--y', (e.clientY - r.top) + 'px');
+      });
+    }
   </script>
 <!-- WhatsApp flotante -->
   <a href="https://wa.me/527206771190?text=Hola%20Project%20Krato%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n" class="wa-float" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
