@@ -339,8 +339,12 @@
             </select>
           </div>
           <div class="field">
-            <label for="mensaje">Tu listing y detalles</label>
-            <textarea id="mensaje" name="mensaje" required></textarea>
+            <label for="airbnb_link">Link de tu Airbnb</label>
+            <input id="airbnb_link" type="url" name="airbnb_link" placeholder="https://www.airbnb.com/rooms/..." required />
+          </div>
+          <div class="field">
+            <label for="notas">Algo más que quieras contarnos (opcional)</label>
+            <textarea id="notas" name="notas"></textarea>
           </div>
           <button class="btn-primary full" type="submit">Enviar</button>
         </form>
@@ -382,9 +386,9 @@
     // Pega-tu-link: no envía nada por sí solo, precarga el formulario real y baja a #contacto.
     const heroLink = document.getElementById('heroLink');
     const heroOrb = document.getElementById('heroOrb');
-    const mensaje = document.getElementById('mensaje');
+    const airbnbLink = document.getElementById('airbnb_link');
     heroOrb.addEventListener('click', () => {
-      if (heroLink.value.trim()) { mensaje.value = heroLink.value.trim(); }
+      if (heroLink.value.trim()) { airbnbLink.value = heroLink.value.trim(); }
       document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
       document.getElementById('nombre').focus({ preventScroll: true });
     });
