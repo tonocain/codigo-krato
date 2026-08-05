@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krato Recorridos — Video de Recorrido para tu Propiedad | CDMX</title>
+  <meta name="description" content="Convertimos las fotos de tu propiedad en un recorrido en video cinematográfico. Antes de que reserven, ya caminaron por tu espacio. Un proyecto de Project Krato." />
+  <meta name="keywords" content="video recorrido Airbnb, video para listing Airbnb CDMX, video walkthrough propiedades, marketing Airbnb México, administradoras Airbnb" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Krato Recorridos" />
+  <link rel="canonical" href="https://projectkrato.com/recorridos" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23FF385C'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='30' font-weight='700' fill='%23FFFFFF' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Krato Recorridos | Antes de reservar, ya caminaron por tu casa" />
+  <meta property="og:description" content="Convertimos las fotos de tu propiedad en un recorrido en video cinematográfico. Un proyecto de Project Krato." />
+  <meta property="og:url" content="https://projectkrato.com/recorridos" />
+  <meta property="og:site_name" content="Krato Recorridos" />
+  <meta property="og:image" content="https://projectkrato.com/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Krato Recorridos | Antes de reservar, ya caminaron por tu casa" />
+  <meta name="twitter:description" content="Convertimos las fotos de tu propiedad en un recorrido en video cinematográfico." />
+  <meta name="twitter:image" content="https://projectkrato.com/og-image.jpg" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Krato Recorridos",
+    "serviceType": "Producción de video de recorrido para propiedades",
+    "description": "Video de recorrido cinematográfico, vertical, generado a partir de las fotos existentes de una propiedad en renta vacacional.",
+    "provider": { "@type": "ProfessionalService", "name": "Project Krato", "url": "https://projectkrato.com" },
+    "areaServed": { "@type": "City", "name": "Ciudad de México" },
+    "url": "https://projectkrato.com/recorridos"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --canvas: #ffffff;
+      --surface-soft: #f7f7f7;
+      --surface-strong: #f2f2f2;
+      --ink: #222222;
+      --body: #3f3f3f;
+      --muted: #6a6a6a;
+      --hairline: #dddddd;
+      --hairline-soft: #ebebeb;
+      --rausch: #ff385c;
+      --rausch-active: #e00b41;
+      --rausch-disabled: #ffd1da;
+      --luxe: #460479;
+      --on-primary: #ffffff;
+      --shadow-card: 0 0 0 1px rgba(0,0,0,.02), 0 2px 6px rgba(0,0,0,.04), 0 4px 8px rgba(0,0,0,.1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--canvas); color: var(--body); font-family: 'Inter', -apple-system, 'Helvetica Neue', Arial, sans-serif; font-weight: 400; line-height: 1.4; overflow-x: hidden; }
+    ::selection { background: var(--rausch); color: var(--on-primary); }
+    a { color: inherit; }
+    h1, h2 { font-family: 'Inter', sans-serif; font-weight: 600; color: var(--ink); line-height: 1.15; letter-spacing: -0.01em; }
+    .accent { color: var(--rausch); }
+    :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
+
+    .eyebrow { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--muted); }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 56px; height: 80px; background: var(--canvas); border-bottom: 1px solid var(--hairline); }
+    .nav-wordmark { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 18px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-wordmark span { color: var(--rausch); }
+    .nav-links { display: flex; gap: 34px; list-style: none; align-items: center; }
+    .nav-links a { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--rausch); }
+    .nav-links .nav-parent { font-size: 12px; font-weight: 500; color: var(--muted); border-left: 1px solid var(--hairline); padding-left: 34px; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 101; }
+    .nav-hamburger span { display: block; width: 20px; height: 2px; background: var(--ink); transition: all 0.25s; transform-origin: center; border-radius: 2px; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .nav-mobile { display: none; position: fixed; top: 80px; left: 0; right: 0; background: var(--canvas); border-bottom: 1px solid var(--hairline); z-index: 99; padding: 8px 24px 20px; }
+    .nav-mobile.open { display: block; }
+    .nav-mobile ul { list-style: none; }
+    .nav-mobile li { border-bottom: 1px solid var(--hairline-soft); }
+    .nav-mobile a { display: block; padding: 16px 0; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--ink); text-decoration: none; }
+
+    /* BUTTONS */
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--rausch); color: var(--on-primary); font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; padding: 14px 24px; height: 48px; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s; }
+    .btn-primary:hover { background: var(--rausch-active); }
+    .btn-primary.full { width: 100%; justify-content: center; }
+    .btn-text { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--hairline); padding-bottom: 3px; transition: border-color 0.2s; }
+    .btn-text:hover { border-color: var(--ink); }
+
+    /* HERO */
+    #hero { padding: 160px 56px 96px; background: var(--surface-soft); }
+    .hero-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+    .hero-inner .eyebrow { display: block; margin-bottom: 20px; }
+    .hero-h1 { font-size: clamp(34px, 5vw, 54px); }
+    .hero-sub { margin-top: 22px; font-size: 17px; color: var(--body); max-width: 520px; line-height: 1.65; margin-left: auto; margin-right: auto; }
+
+    /* Signature: pill "search bar" repurposed as the lead hook */
+    .link-pill { margin: 40px auto 0; max-width: 560px; display: flex; align-items: center; background: var(--canvas); border: 1px solid var(--hairline); border-radius: 999px; box-shadow: var(--shadow-card); padding: 6px 6px 6px 24px; gap: 12px; }
+    .link-pill input { flex: 1; border: none; background: transparent; outline: none; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink); }
+    .link-pill input::placeholder { color: var(--muted); }
+    .link-orb { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 999px; background: var(--rausch); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; }
+    .link-orb:hover { background: var(--rausch-active); }
+    .link-orb svg { width: 18px; height: 18px; stroke: var(--on-primary); }
+    .hero-hint { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+    .hero-alt { margin-top: 28px; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* DIPTYCH */
+    .diptych-wrap { padding: 96px 56px; background: var(--canvas); }
+    .diptych-head { text-align: center; max-width: 620px; margin: 0 auto 56px; }
+    .diptych-head .eyebrow { color: var(--rausch); display: block; margin-bottom: 18px; }
+    .diptych-head h2 { font-size: clamp(28px, 3.6vw, 40px); }
+    .diptych { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1000px; margin: 0 auto; }
+    .diptych-card { position: relative; background: var(--surface-soft); border-radius: 14px; padding: 40px 36px; }
+    .diptych-card.featured { background: var(--canvas); border: 1px solid var(--hairline); box-shadow: var(--shadow-card); }
+    .badge { position: absolute; top: -14px; left: 32px; background: var(--canvas); border-radius: 999px; box-shadow: var(--shadow-card); padding: 6px 14px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+    .badge svg { width: 12px; height: 12px; fill: var(--rausch); }
+    .diptych-card h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 19px; color: var(--ink); margin-bottom: 12px; line-height: 1.3; }
+    .diptych-card p { font-size: 15px; line-height: 1.65; color: var(--body); }
+
+    /* PROCESS */
+    .process-wrap { padding: 96px 56px; background: var(--surface-soft); }
+    .room-strip { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; margin-bottom: 56px; }
+    .room-strip span { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--muted); padding: 0 16px; border-left: 1px solid var(--hairline); }
+    .room-strip span:first-child { border-left: none; }
+    .process-head { text-align: center; max-width: 620px; margin: 0 auto 64px; }
+    .process-head .eyebrow { color: var(--rausch); display: block; margin-bottom: 18px; }
+    .process-head h2 { font-size: clamp(28px, 3.6vw, 40px); }
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto; }
+    .process-step { background: var(--canvas); border-radius: 14px; padding: 28px 24px; border: 1px solid var(--hairline-soft); }
+    .process-num { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; color: var(--on-primary); background: var(--rausch); width: 26px; height: 26px; border-radius: 999px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+    .process-step h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; color: var(--ink); margin-bottom: 8px; }
+    .process-step p { font-size: 14px; line-height: 1.6; color: var(--body); }
+
+    /* BRIDGE */
+    .bridge { padding: 96px 56px; background: var(--canvas); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); text-align: center; }
+    .bridge-inner { max-width: 640px; margin: 0 auto; }
+    .bridge .eyebrow { color: var(--luxe); display: block; margin-bottom: 20px; }
+    .bridge h2 { font-size: clamp(26px, 3.6vw, 38px); margin-bottom: 20px; }
+    .bridge p { font-size: 16px; line-height: 1.7; color: var(--body); max-width: 540px; margin: 0 auto 28px; }
+
+    /* CONTACT */
+    #contacto { padding: 96px 56px; background: var(--surface-soft); }
+    .contact-inner { max-width: 520px; margin: 0 auto; background: var(--canvas); border-radius: 14px; border: 1px solid var(--hairline); box-shadow: var(--shadow-card); padding: 48px 44px; }
+    .contact-head { text-align: center; margin-bottom: 40px; }
+    .contact-head .eyebrow { color: var(--rausch); display: block; margin-bottom: 16px; }
+    .contact-head h2 { font-size: clamp(26px, 3.4vw, 34px); margin-bottom: 14px; }
+    .contact-head p { font-size: 14.5px; line-height: 1.6; color: var(--muted); }
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+    .field input, .field select, .field textarea { width: 100%; background: var(--canvas); border: 1px solid var(--hairline); border-radius: 8px; color: var(--ink); font-family: 'Inter', sans-serif; font-size: 15px; padding: 14px 14px; outline: none; transition: border-color 0.15s, border-width 0.15s; appearance: none; }
+    .field select { cursor: pointer; }
+    .field textarea { resize: none; min-height: 84px; }
+    .field input:focus, .field select:focus, .field textarea:focus { border: 2px solid var(--ink); padding: 13px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* FOOTER */
+    footer { background: var(--canvas); padding: 48px 56px; border-top: 1px solid var(--hairline); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 22px; }
+    .footer-brand { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; color: var(--ink); }
+    .footer-brand span { color: var(--rausch); }
+    .footer-parent { display: block; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--muted); text-decoration: none; margin-top: 4px; }
+    .footer-parent:hover { color: var(--ink); }
+    .footer-contact { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .footer-contact a { font-size: 13px; color: var(--body); text-decoration: none; display: inline-flex; align-items: center; gap: 7px; transition: color 0.2s; }
+    .footer-contact a:hover { color: var(--ink); }
+    .footer-contact svg { width: 13px; height: 13px; fill: currentColor; flex: 0 0 auto; }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a { font-size: 12.5px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--ink); }
+
+    /* WHATSAPP */
+    .wa-float { position: fixed; right: 24px; bottom: 24px; z-index: 200; width: 50px; height: 50px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-card); transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.06); }
+    .wa-float svg { width: 24px; height: 24px; fill: #fff; }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      nav { padding: 0 22px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      #hero { padding: 120px 22px 72px; }
+      .diptych-wrap, .process-wrap, .bridge, #contacto { padding: 64px 22px; }
+      .diptych { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .contact-inner { padding: 36px 24px; }
+      .field-row { grid-template-columns: 1fr; gap: 0; }
+      footer { padding: 36px 22px; flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+      .room-strip { row-gap: 8px; }
+    }
+    @media (max-width: 600px) {
+      .process-grid { grid-template-columns: 1fr; }
+      .link-pill { flex-direction: column; align-items: stretch; border-radius: 16px; padding: 16px; gap: 12px; }
+      .link-orb { width: 100%; border-radius: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav role="navigation" aria-label="Navegación principal">
+    <a href="/recorridos" class="nav-wordmark">Krato <span>Recorridos</span></a>
+    <ul class="nav-links" role="list">
+      <li><a href="#proceso">Cómo funciona</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="https://projectkrato.com/" target="_blank" rel="noopener" class="nav-parent">Project Krato ↗</a></li>
+    </ul>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menú"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <ul>
+      <li><a href="#proceso">Cómo funciona</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="https://projectkrato.com/" target="_blank" rel="noopener">Project Krato ↗</a></li>
+    </ul>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero" aria-label="Propuesta de valor">
+      <div class="hero-inner">
+        <span class="eyebrow">Krato Recorridos · Ciudad de México</span>
+        <h1 class="hero-h1">Antes de reservar, ya <span class="accent">caminaron</span> por tu casa.</h1>
+        <p class="hero-sub">Convertimos las fotos de tu propiedad en un recorrido cinematográfico — la luz, la distancia entre los espacios, el detalle que una fotografía sola no alcanza a contar.</p>
+
+        <!-- Señal: pega tu link, no manda un segundo formulario — solo baja al formulario real y precarga el mensaje, para no duplicar la captura de leads. -->
+        <div class="link-pill">
+          <input type="text" id="heroLink" placeholder="Pega el link de tu Airbnb" aria-label="Link de tu Airbnb" />
+          <button class="link-orb" id="heroOrb" aria-label="Continuar">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <p class="hero-hint">O escríbenos directo si prefieres mandarnos las fotos por WhatsApp.</p>
+        <div class="hero-alt">
+          <a href="#proceso" class="btn-text">Ver cómo funciona</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIPTYCH -->
+    <section class="diptych-wrap" aria-label="La primera impresión">
+      <div class="diptych-head reveal">
+        <span class="eyebrow">La primera impresión</span>
+        <h2>Todos compiten con las mismas fotos.</h2>
+      </div>
+      <div class="diptych reveal" role="list">
+        <div class="diptych-card" role="listitem">
+          <h3>Hoy</h3>
+          <p>Un listing más, con las mismas fotos que todos. El huésped no sabe cómo se siente el espacio hasta que llega — y ahí empiezan las cancelaciones por "no era como pensé".</p>
+        </div>
+        <div class="diptych-card featured" role="listitem">
+          <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.9-5 4.8 1.3 6.9L12 17.6 5.9 21l1.3-6.9-5-4.8 6.9-.9z"/></svg>Con el recorrido</span>
+          <h3>Entran a tu espacio antes de escribir.</h3>
+          <p>Reservan con certeza — y te llevas un video que también funciona como contenido para tus redes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESO -->
+    <section id="proceso" class="process-wrap" aria-label="Cómo funciona">
+      <div class="room-strip reveal" aria-hidden="true">
+        <span>Entrada</span><span>Sala</span><span>Cocina</span><span>Recámara</span><span>Baño</span><span>Detalle</span>
+      </div>
+      <div class="process-head reveal">
+        <span class="eyebrow">Cómo funciona</span>
+        <h2>Cuatro pasos. Cero producción de tu lado.</h2>
+      </div>
+      <div class="process-grid" role="list">
+        <div class="process-step reveal" role="listitem">
+          <div class="process-num">1</div>
+          <h3>Envías tus fotos</h3>
+          <p>Las que ya tienes en tu listing. No hace falta una sesión nueva.</p>
+        </div>
+        <div class="process-step reveal" role="listitem">
+          <div class="process-num">2</div>
+          <h3>Recorremos cada espacio</h3>
+          <p>Ordenamos entrada, sala, cocina, recámara y baño en una secuencia con sentido.</p>
+        </div>
+        <div class="process-step reveal" role="listitem">
+          <div class="process-num">3</div>
+          <h3>Filmamos el recorrido</h3>
+          <p>Un video vertical y cinematográfico, con música, de 30 a 45 segundos.</p>
+        </div>
+        <div class="process-step reveal" role="listitem">
+          <div class="process-num">4</div>
+          <h3>Lo recibes</h3>
+          <p>Listo para tu listing o tus redes. El archivo es tuyo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PUENTE -->
+    <section class="bridge reveal" aria-label="Más allá del recorrido">
+      <div class="bridge-inner">
+        <span class="eyebrow">Más allá del recorrido</span>
+        <h2>Un video cambia la primera impresión. Un sistema cambia cuántas veces te eligen.</h2>
+        <p>Si administras varias propiedades, ya conoces la fricción real: mensajes de Airbnb, WhatsApp y Booking al mismo tiempo — y la reserva se va con quien contesta primero. Ese es el trabajo de Project Krato, la casa detrás de Krato Recorridos.</p>
+        <a href="https://projectkrato.com/#contacto" class="btn-text" target="_blank" rel="noopener">Conocer Project Krato →</a>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" aria-label="Contacto">
+      <div class="contact-inner reveal">
+        <div class="contact-head">
+          <span class="eyebrow">Empezar</span>
+          <h2>Cuéntanos de tu espacio.</h2>
+          <p>Respondemos en 24 horas.</p>
+        </div>
+        <!-- Envía directo al webhook de n8n (workflow "Krato Recorridos → Airtable CRM") — n8n crea el lead en Airtable y redirige aquí de vuelta a gracias-recorridos.html. Sin Netlify Forms de por medio. -->
+        <form method="POST" action="https://projectkrato-n8n.y4pkfy.easypanel.host/webhook/krato-recorridos">
+          <input type="text" name="bot-field" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="field-row">
+            <div class="field">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" type="text" name="nombre" required />
+            </div>
+            <div class="field">
+              <label for="email">Correo</label>
+              <input id="email" type="email" name="email" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="propiedades">¿Cuántas propiedades administras?</label>
+            <select id="propiedades" name="propiedades" required>
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option value="1">1 propiedad</option>
+              <option value="2-4">2-4 propiedades</option>
+              <option value="5-10">5-10 propiedades</option>
+              <option value="10+">Más de 10</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mensaje">Tu listing y detalles</label>
+            <textarea id="mensaje" name="mensaje" required></textarea>
+          </div>
+          <button class="btn-primary full" type="submit">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div>
+      <span class="footer-brand">Krato <span>Recorridos</span></span>
+      <a href="https://projectkrato.com/" class="footer-parent" target="_blank" rel="noopener">Un proyecto de Project Krato ↗</a>
+    </div>
+    <div class="footer-contact">
+      <a href="mailto:tonocain@projectkrato.com">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2V4zm10 7L4 6v1l8 5 8-5V6l-8 5z"/></svg>
+        tonocain@projectkrato.com
+      </a>
+      <a href="https://wa.me/527206771190?text=Hola%2C%20quiero%20mi%20video%20de%20recorrido" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M.06 24l1.7-6.2a11.9 11.9 0 1110.4 6h-.01a11.9 11.9 0 01-5.7-1.45L.06 24zm6.6-3.8l.35.2a9.9 9.9 0 005 1.37h.01a9.9 9.9 0 10-8.4-4.6l.23.37-1 3.65 3.8-1z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+    <ul class="footer-links" role="list">
+      <li><a href="/aviso-legal.html">Aviso legal</a></li>
+    </ul>
+  </footer>
+
+  <a href="https://wa.me/527206771190?text=Hola%2C%20quiero%20mi%20video%20de%20recorrido" class="wa-float" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M.06 24l1.7-6.2a11.9 11.9 0 1110.4 6h-.01a11.9 11.9 0 01-5.7-1.45L.06 24zm6.6-3.8l.35.2a9.9 9.9 0 005 1.37h.01a9.9 9.9 0 10-8.4-4.6l.23.37-1 3.65 3.8-1z"/></svg>
+  </a>
+
+  <script>
+    const btn = document.getElementById('navToggle');
+    const menu = document.getElementById('navMobile');
+    btn.addEventListener('click', () => { btn.classList.toggle('open'); menu.classList.toggle('open'); });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { btn.classList.remove('open'); menu.classList.remove('open'); }));
+
+    // Pega-tu-link: no envía nada por sí solo, precarga el formulario real y baja a #contacto.
+    const heroLink = document.getElementById('heroLink');
+    const heroOrb = document.getElementById('heroOrb');
+    const mensaje = document.getElementById('mensaje');
+    heroOrb.addEventListener('click', () => {
+      if (heroLink.value.trim()) { mensaje.value = heroLink.value.trim(); }
+      document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('nombre').focus({ preventScroll: true });
+    });
+    heroLink.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); heroOrb.click(); } });
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealEls = document.querySelectorAll('.reveal');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealEls.forEach(el => el.classList.add('is-visible'));
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); } });
+      }, { threshold: 0.15 });
+      revealEls.forEach(el => io.observe(el));
+    }
+  </script>
+</body>
+</html>
