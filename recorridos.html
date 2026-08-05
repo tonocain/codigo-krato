@@ -172,6 +172,22 @@
     .process-step h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; color: var(--ink); margin-bottom: 8px; }
     .process-step p { font-size: 14px; line-height: 1.6; color: var(--body); }
 
+    /* PRICING */
+    .pricing-wrap { padding: 96px 56px; background: var(--canvas); text-align: center; }
+    .pricing-head .eyebrow { color: var(--rausch); display: block; margin-bottom: 18px; }
+    .pricing-head h2 { font-size: clamp(28px, 3.6vw, 40px); }
+    .pricing-head p { max-width: 480px; margin: 18px auto 0; font-size: 15px; color: var(--muted); line-height: 1.6; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 48px auto 0; align-items: stretch; }
+    .pricing-card { position: relative; background: var(--surface-soft); border-radius: 14px; padding: 40px 28px; display: flex; flex-direction: column; align-items: center; }
+    .pricing-card.featured { background: var(--canvas); border: 1px solid var(--hairline); box-shadow: var(--shadow-card); }
+    .pricing-card h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; color: var(--ink); margin-bottom: 18px; }
+    .pricing-price { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 40px; color: var(--ink); line-height: 1; }
+    .pricing-price span { font-size: 14px; font-weight: 600; color: var(--muted); }
+    .pricing-price-sm { font-size: 26px; }
+    .pricing-per { font-size: 13px; color: var(--muted); margin-top: 10px; margin-bottom: 28px; }
+    .pricing-cta { margin-top: auto; }
+    a.btn-primary.pricing-cta { width: 100%; justify-content: center; }
+
     /* BRIDGE */
     .bridge { padding: 96px 56px; background: var(--canvas); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); text-align: center; }
     .bridge-inner { max-width: 640px; margin: 0 auto; }
@@ -219,9 +235,10 @@
       .nav-links { display: none; }
       .nav-hamburger { display: flex; }
       #hero { padding: 120px 22px 72px; }
-      .diptych-wrap, .process-wrap, .bridge, #contacto { padding: 64px 22px; }
+      .diptych-wrap, .process-wrap, .compare-wrap, .pricing-wrap, .bridge, #contacto { padding: 64px 22px; }
       .diptych { grid-template-columns: 1fr; }
       .process-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 340px; }
       .contact-inner { padding: 36px 24px; }
       .field-row { grid-template-columns: 1fr; gap: 0; }
       footer { padding: 36px 22px; flex-direction: column; text-align: center; }
@@ -344,7 +361,7 @@
             <tr>
               <th scope="row">Costo</th>
               <td>$150–$550 USD por propiedad (videographer + edición)</td>
-              <td class="highlight">Con las fotos que ya tienes — sin sesión nueva</td>
+              <td class="highlight">Desde $70 USD por video</td>
             </tr>
             <tr>
               <th scope="row">Qué haces tú</th>
@@ -391,6 +408,36 @@
           <div class="process-num">4</div>
           <h3>Lo recibes</h3>
           <p>Listo para tu listing o tus redes. El archivo es tuyo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRECIOS -->
+    <section class="pricing-wrap" aria-label="Precios">
+      <div class="pricing-head reveal">
+        <span class="eyebrow">Precios</span>
+        <h2>Simple, sin sorpresas.</h2>
+        <p>Cada video incluye: formato vertical (9:16) cinematográfico, música, 30–45 segundos, entrega en 2 días hábiles, listo para tu listing y tus redes.</p>
+      </div>
+      <div class="pricing-grid reveal" role="list">
+        <div class="pricing-card" role="listitem">
+          <h3>Individual</h3>
+          <p class="pricing-price">$90 <span>USD</span></p>
+          <p class="pricing-per">1 video</p>
+          <a href="#contacto" class="btn-text pricing-cta" data-plan="Individual (1 video, $90 USD)">Quiero mi video</a>
+        </div>
+        <div class="pricing-card featured" role="listitem">
+          <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.9-5 4.8 1.3 6.9L12 17.6 5.9 21l1.3-6.9-5-4.8 6.9-.9z"/></svg>Más popular</span>
+          <h3>Paquete de 5</h3>
+          <p class="pricing-price">$350 <span>USD</span></p>
+          <p class="pricing-per">5 videos · $70 USD c/u</p>
+          <a href="#contacto" class="btn-primary pricing-cta" data-plan="Paquete de 5 (5 videos, $350 USD)">Quiero el paquete</a>
+        </div>
+        <div class="pricing-card" role="listitem">
+          <h3>Portafolio</h3>
+          <p class="pricing-price pricing-price-sm">A medida</p>
+          <p class="pricing-per">6 propiedades o más</p>
+          <a href="#contacto" class="btn-text pricing-cta" data-plan="Portafolio (6+ propiedades)">Cotizar portafolio</a>
         </div>
       </div>
     </section>
@@ -491,6 +538,15 @@
       document.getElementById('nombre').focus({ preventScroll: true });
     });
     heroLink.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); heroOrb.click(); } });
+
+    // Botones de precio: precargan el plan elegido en "notas" (mismo campo que ya llega a Airtable) antes de bajar al formulario real.
+    document.querySelectorAll('.pricing-cta').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const notas = document.getElementById('notas');
+        const plan = btn.dataset.plan;
+        if (notas && plan) { notas.value = 'Plan de interés: ' + plan; }
+      });
+    });
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
