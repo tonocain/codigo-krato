@@ -94,8 +94,9 @@
     .btn-text:hover { border-color: var(--ink); }
 
     /* HERO */
-    #hero { padding: 160px 56px 96px; background: var(--surface-soft); }
-    .hero-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+    #hero { padding: 160px 56px 96px; background: var(--surface-soft); position: relative; overflow: hidden; }
+    .hero-wave { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .hero-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; text-align: center; }
     .hero-inner .eyebrow { display: block; margin-bottom: 20px; }
     .hero-h1 { font-size: clamp(34px, 5vw, 54px); }
     .hero-sub { margin-top: 22px; font-size: 17px; color: var(--body); max-width: 520px; line-height: 1.65; margin-left: auto; margin-right: auto; }
@@ -166,7 +167,7 @@
     .process-head { text-align: center; max-width: 620px; margin: 0 auto 64px; }
     .process-head .eyebrow { color: var(--rausch); display: block; margin-bottom: 18px; }
     .process-head h2 { font-size: clamp(28px, 3.6vw, 40px); }
-    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto; }
+    .process-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto; }
     .process-step { background: var(--canvas); border-radius: 14px; padding: 28px 24px; border: 1px solid var(--hairline-soft); }
     .process-num { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; color: var(--on-primary); background: var(--rausch); width: 26px; height: 26px; border-radius: 999px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
     .process-step h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px; color: var(--ink); margin-bottom: 8px; }
@@ -275,6 +276,7 @@
 
     <!-- HERO -->
     <section id="hero" aria-label="Propuesta de valor">
+      <canvas class="hero-wave" id="heroWave" aria-hidden="true"></canvas>
       <div class="hero-inner">
         <span class="eyebrow">Krato Recorridos · Ciudad de México</span>
         <h1 class="hero-h1">Antes de reservar, ya <span class="accent">caminaron</span> por tu casa.</h1>
@@ -386,28 +388,33 @@
       </div>
       <div class="process-head reveal">
         <span class="eyebrow">Cómo funciona</span>
-        <h2>Cuatro pasos. Cero producción de tu lado.</h2>
+        <h2>Cinco pasos. Cero producción de tu lado.</h2>
       </div>
       <div class="process-grid" role="list">
         <div class="process-step reveal" role="listitem">
-          <div class="process-num">1</div>
-          <h3>Envías tus fotos</h3>
-          <p>Las que ya tienes en tu listing. No hace falta una sesión nueva.</p>
+          <div class="process-num">K</div>
+          <h3>Kickoff</h3>
+          <p>Envíanos las fotos de tu propiedad y el enlace de tu listing.</p>
         </div>
         <div class="process-step reveal" role="listitem">
-          <div class="process-num">2</div>
-          <h3>Recorremos cada espacio</h3>
-          <p>Ordenamos entrada, sala, cocina, recámara y baño en una secuencia con sentido.</p>
+          <div class="process-num">R</div>
+          <h3>Reconstruct</h3>
+          <p>Reconstruimos el recorrido ideal a partir de tus imágenes.</p>
         </div>
         <div class="process-step reveal" role="listitem">
-          <div class="process-num">3</div>
-          <h3>Filmamos el recorrido</h3>
-          <p>Un video vertical y cinematográfico, con música, de 30 a 45 segundos.</p>
+          <div class="process-num">A</div>
+          <h3>Assemble</h3>
+          <p>Unimos cada espacio en una secuencia natural y cinematográfica.</p>
         </div>
         <div class="process-step reveal" role="listitem">
-          <div class="process-num">4</div>
-          <h3>Lo recibes</h3>
-          <p>Listo para tu listing o tus redes. El archivo es tuyo.</p>
+          <div class="process-num">T</div>
+          <h3>Transform</h3>
+          <p>Aplicamos movimiento, iluminación, música y edición para dar vida al recorrido.</p>
+        </div>
+        <div class="process-step reveal" role="listitem">
+          <div class="process-num">O</div>
+          <h3>Output</h3>
+          <p>Recibes tu video listo para Airbnb, Reels, TikTok y redes.</p>
         </div>
       </div>
     </section>
@@ -549,6 +556,61 @@
     });
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Hero: líneas ambientales de fondo, decorativas — se saltan por completo con reduced motion.
+    if (!reduceMotion) {
+      const heroSection = document.getElementById('hero');
+      const canvas = document.getElementById('heroWave');
+      const ctx = canvas.getContext('2d');
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const mouse = { x: -9999, y: -9999 };
+      let t = 0;
+
+      const resize = () => {
+        canvas.width = heroSection.clientWidth * dpr;
+        canvas.height = heroSection.clientHeight * dpr;
+        canvas.style.width = heroSection.clientWidth + 'px';
+        canvas.style.height = heroSection.clientHeight + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+      resize();
+      window.addEventListener('resize', resize);
+
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+      heroSection.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+
+      const lineCount = 22;
+      const segmentCount = 60;
+
+      const drawWave = () => {
+        const w = heroSection.clientWidth, h = heroSection.clientHeight;
+        const midY = h * 0.58;
+        ctx.clearRect(0, 0, w, h);
+        for (let i = 0; i < lineCount; i++) {
+          const progress = i / lineCount;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(255, 56, 92, ${Math.sin(progress * Math.PI) * 0.22})`;
+          ctx.lineWidth = 2;
+          for (let j = 0; j <= segmentCount; j++) {
+            const x = (j / segmentCount) * w;
+            const distToMouse = Math.hypot(x - mouse.x, midY - mouse.y);
+            const mouseEffect = Math.max(0, 1 - distToMouse / 260);
+            const noise = Math.sin(j * 0.15 + t + i * 0.3) * 10;
+            const spike = Math.cos(j * 0.25 + t + i * 0.15) * Math.sin(j * 0.08 + t) * 18;
+            const y = midY + noise + spike * (1 + mouseEffect * 2.5);
+            j === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+        t += 0.018;
+        requestAnimationFrame(drawWave);
+      };
+      drawWave();
+    }
 
     // Demo video: only downloads once it's actually in view, muted-autoplay there, pauses when scrolled away.
     const demoPlayer = document.querySelector('.demo-player');
