@@ -213,6 +213,18 @@
     .footer-contact a:hover { color: var(--lime); }
     .footer-contact svg { width: 14px; height: 14px; fill: currentColor; flex: 0 0 auto; }
 
+    /* SISTEMA 3D */
+    .sistema { background: var(--black); color: var(--white); padding: 100px 60px; text-align: center; }
+    .sistema .label-lime { display: block; margin-bottom: 16px; }
+    .sistema h2 { font-size: clamp(32px, 4.4vw, 60px); max-width: 720px; margin: 0 auto; }
+    .sistema h2 span { color: var(--lime); }
+    .sistema > p { max-width: 540px; margin: 24px auto 0; font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.72); }
+    .sistema-stage { position: relative; margin: 56px auto 0; max-width: 1000px; aspect-ratio: 1 / 1; background: url('/krato-poster.webp') center / contain no-repeat; }
+    .sistema-stage canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.7s ease; }
+    .sistema-stage.ready canvas { opacity: 1; cursor: grab; }
+    .sistema-stage.ready canvas:active { cursor: grabbing; }
+    .sistema-hint { margin: 20px auto 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.38); }
+
     /* RESPONSIVE */
     @media (max-width: 1200px) {
       .hero-3d { width: 50%; }
@@ -224,6 +236,7 @@
       #hero { padding: 88px 20px 60px; min-height: 100svh; }
       .hero-3d { display: none; }
       .section-white, .section-black { padding: 64px 20px; }
+      .sistema { padding: 64px 20px; }
       .section-header { flex-direction: column; gap: 20px; }
       .proceso-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
       .krato-score-section { grid-template-columns: 1fr; padding: 64px 20px; gap: 48px; }
@@ -256,6 +269,14 @@
   src="https://www.facebook.com/tr?id=1063814826134556&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -352,6 +373,15 @@
           <span class="service-tag">Producto a medida</span>
         </article>
       </div>
+    </section>
+
+    <!-- SISTEMA 3D -->
+    <section class="sistema" aria-labelledby="sistema-h2">
+      <span class="label-lime">CÓMO ENCAJA</span>
+      <h2 id="sistema-h2">Dos líneas. Cuatro piezas.<br />Un solo <span>núcleo</span>.</h2>
+      <p>Ventas, CRM, software e IA no se venden por separado. Se conectan al mismo sistema — y ese sistema es lo que diagnosticamos.</p>
+      <div class="sistema-stage" id="sistemaStage" role="img" aria-label="Diagrama tridimensional: un núcleo Krato conectado a cuatro módulos — Ventas, CRM, Software e IA."></div>
+      <p class="sistema-hint" id="sistemaHint" hidden>Arrástralo para girarlo · rueda para acercar</p>
     </section>
 
     <!-- MÉTODO KRATO -->
@@ -508,6 +538,173 @@
         hero.style.setProperty('--x', (e.clientX - r.left) + 'px');
         hero.style.setProperty('--y', (e.clientY - r.top) + 'px');
       });
+    }
+  </script>
+  <script type="module">
+    // ponytail: el chip 3D solo se monta en desktop (>960px) y al entrar en viewport.
+    // En movil, sin WebGL o si falla el GLB queda el poster de fondo, que es el mismo render.
+    const stage = document.getElementById('sistemaStage');
+    const isDesktop = window.matchMedia('(min-width: 961px)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (stage && isDesktop) {
+      const io = new IntersectionObserver((entries, obs) => {
+        if (!entries[0].isIntersecting) return;
+        obs.disconnect();
+        mount().catch(err => console.warn('krato 3d:', err));
+      }, { rootMargin: '400px' });
+      io.observe(stage);
+    }
+
+    async function mount() {
+      const THREE = await import('three');
+      const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+      const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+      const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x0A0A0A, 1);
+      stage.appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+      // ponytail: RoomEnvironment da reflejos metalicos sin descargar ningun HDRI.
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+      const key = new THREE.DirectionalLight(0xffffff, 2.4);
+      key.position.set(6, 10, 8);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0xffffff, 0.7);
+      fill.position.set(-8, 5, -6);
+      scene.add(fill);
+
+      const gltf = await new GLTFLoader().loadAsync('/krato-core.glb');
+      const model = gltf.scene;
+      const tilt = new THREE.Group();
+      tilt.add(model);
+      scene.add(tilt);
+
+      // Encuadre por bounds reales, no por tamano asumido (docs/INTEGRACION.md).
+      const box0 = new THREE.Box3().setFromObject(model);
+      const sphere = box0.getBoundingSphere(new THREE.Sphere());
+      model.position.sub(sphere.center);
+
+      // Camara de Blender (10,-14,13) -> equivalente glTF (10,13,14), mirando al origen.
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 500);
+      camera.position.set(10, 13, 14).normalize().multiplyScalar(sphere.radius * 4);
+      camera.up.set(0, 1, 0);
+      camera.lookAt(0, 0, 0);
+
+      // ponytail: encuadre exacto proyectando las 8 esquinas del box al espacio de camara.
+      // El radio de la esfera sobra mucho porque la plataforma es plana y ancha.
+      const box = new THREE.Box3().setFromObject(model);
+      const corners = [];
+      for (const x of [box.min.x, box.max.x])
+        for (const y of [box.min.y, box.max.y])
+          for (const z of [box.min.z, box.max.z]) corners.push(new THREE.Vector3(x, y, z));
+
+      // Limites de giro: compartidos por el encuadre y por OrbitControls mas abajo.
+      // Giro libre total: cualquier angulo, incluido por debajo de la plataforma.
+      // EPS evita el polo exacto, donde lookAt con up=(0,1,0) es degenerado y la
+      // camara pega un tiron al cruzarlo.
+      const EPS = 0.0001;
+      const POLAR_MIN = EPS, POLAR_MAX = Math.PI - EPS;
+
+      // ponytail: el encuadre se calcula UNA vez contra el peor angulo que permiten
+      // los controles. Recalcularlo por frame haria "respirar" al modelo al girar,
+      // y encuadrar solo el angulo inicial lo dejaria saliendose de cuadro.
+      let fitHW = 0, fitHH = 0;
+      {
+        const probe = camera.clone();
+        const v = new THREE.Vector3();
+        const dist = camera.position.length();
+        for (let pi = 0; pi <= 12; pi++) {
+          const phi = POLAR_MIN + (POLAR_MAX - POLAR_MIN) * pi / 12;
+          for (let ai = 0; ai < 32; ai++) {
+            const th = (ai / 32) * Math.PI * 2;
+            probe.position.set(
+              dist * Math.sin(phi) * Math.sin(th),
+              dist * Math.cos(phi),
+              dist * Math.sin(phi) * Math.cos(th)
+            );
+            probe.up.set(0, 1, 0);
+            probe.lookAt(0, 0, 0);
+            probe.updateMatrixWorld();
+            const inv = probe.matrixWorld.clone().invert();
+            for (const c of corners) {
+              v.copy(c).applyMatrix4(inv);
+              fitHW = Math.max(fitHW, Math.abs(v.x));
+              fitHH = Math.max(fitHH, Math.abs(v.y));
+            }
+          }
+        }
+        fitHW *= 1.04; fitHH *= 1.04;
+      }
+
+      const resize = () => {
+        const w = stage.clientWidth, h = stage.clientHeight;
+        if (!w || !h) return;
+        renderer.setSize(w, h, false);
+        const a = w / h;
+        let hw = fitHW, hh = fitHH;
+        if (hw / hh < a) hw = hh * a; else hh = hw / a;
+        camera.left = -hw; camera.right = hw;
+        camera.top = hh; camera.bottom = -hh;
+        camera.updateProjectionMatrix();
+      };
+      resize();
+      new ResizeObserver(resize).observe(stage);
+
+      // Pulsos orbitales: r=2.6 en plano XZ, y=0.065, ciclo 5s, offsets de 1/6 de vuelta.
+      const pulses = [];
+      model.traverse(o => { if (/^pulse_\d+$/.test(o.name)) pulses.push(o); });
+      pulses.sort((a, b) => a.name.localeCompare(b.name));
+      const R = 2.6, Y = 0.065, CYCLE = 5;
+
+      // Giro libre con el raton. Sin pan: arrastrar el modelo fuera de cuadro
+      // es la forma mas facil de dejarlo roto y sin salida.
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.target.set(0, 0, 0);
+      controls.enablePan = false;
+      controls.enableDamping = !reduceMotion;
+      controls.dampingFactor = 0.08;
+      controls.rotateSpeed = 0.55;
+      controls.minPolarAngle = POLAR_MIN;  // no llegar al cenit
+      controls.maxPolarAngle = POLAR_MAX;  // ni meterse por debajo de la plataforma
+      controls.minZoom = 0.75;
+      controls.maxZoom = 2.2;
+      controls.update();
+
+      const t0 = performance.now();
+      let raf = null;
+
+      const frame = () => {
+        raf = requestAnimationFrame(frame);
+        if (!reduceMotion) {
+          const t = (performance.now() - t0) / 1000;
+          pulses.forEach((p, i) => {
+            const a = ((t / CYCLE) + i / 6) * Math.PI * 2;
+            p.position.set(R * Math.cos(a), Y, -R * Math.sin(a));
+          });
+        }
+        controls.update();
+        renderer.render(scene, camera);
+      };
+
+      const start = () => { if (!raf) raf = requestAnimationFrame(frame); };
+      const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = null; } };
+
+      renderer.render(scene, camera);
+      stage.classList.add('ready');
+      document.getElementById('sistemaHint').hidden = false;
+
+      // ponytail: parar el loop fuera de pantalla y con la pestana oculta.
+      // Con controles el loop corre siempre que se vea, tambien en reduced-motion:
+      // ahi solo se apagan los pulsos y la inercia, no el poder girarlo.
+      new IntersectionObserver(e => (e[0].isIntersecting ? start() : stop()), { threshold: 0.01 }).observe(stage);
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+      start();
     }
   </script>
 <!-- WhatsApp flotante -->
