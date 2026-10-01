@@ -1,0 +1,12 @@
+# 301: versiones .html -> URL canónica sin extensión (evita contenido duplicado)
+/auditoria-digital-mexico.html              /auditoria-digital-mexico              301!
+/auditoria-seo-mexico.html                  /auditoria-seo-mexico                  301!
+/auditoria-meta-ads-mexico.html             /auditoria-meta-ads-mexico             301!
+/diseno-web-mexico.html                     /diseno-web-mexico                     301!
+/convertir-instagram-a-pagina-web.html      /convertir-instagram-a-pagina-web      301!
+/mejorar-pagina-web.html                    /mejorar-pagina-web                    301!
+/desarrollo-web-app-mexico.html             /desarrollo-web-app-mexico             301!
+/estudio-de-prospeccion-comercial.html      /estudio-de-prospeccion-comercial      301!
+/agentes-ia-automatizaciones-mexico.html    /agentes-ia-automatizaciones-mexico    301!
+/aviso-de-privacidad.html  /aviso-legal.html  301!
+/aviso-de-privacidad       /aviso-legal.html  301!
