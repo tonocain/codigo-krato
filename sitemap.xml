@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://projectkrato.com/</loc>
-    <lastmod>2026-07-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://projectkrato.com/recorridos</loc>
-    <lastmod>2026-08-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://projectkrato.com/aviso-legal.html</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+  <url><loc>https://projectkrato.com/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/auditoria-meta-ads-mexico</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/auditoria-seo-mexico</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/auditoria-digital-mexico</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/agentes-ia-automatizaciones-mexico</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/desarrollo-web-app-mexico</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/diseno-web-mexico</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/mejorar-pagina-web</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/convertir-instagram-a-pagina-web</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/estudio-de-prospeccion-comercial</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://projectkrato.com/recorridos</loc><lastmod>2026-08-05</lastmod></url>
+  <url><loc>https://projectkrato.com/aviso-legal.html</loc><lastmod>2026-07-27</lastmod></url>
 </urlset>
